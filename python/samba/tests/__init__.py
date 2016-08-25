@@ -521,8 +521,8 @@ class RawDCERPCTest(TestCase):
             sys.stderr.write("parse_auth: %s" % samba.ndr.ndr_print(a))
 
         return a
-
-    def generate_pdu(self, ptype, call_id, payload,
+    if not six.PY3:
+     def generate_pdu(self, ptype, call_id, payload,
                      rpc_vers=5,
                      rpc_vers_minor=0,
                      pfc_flags = samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_FIRST |
@@ -553,8 +553,8 @@ class RawDCERPCTest(TestCase):
         p.frag_length = len(pdu)
 
         return p
-
-    def verify_pdu(self, p, ptype, call_id,
+    if not six.PY3:
+     def verify_pdu(self, p, ptype, call_id,
                    rpc_vers=5,
                    rpc_vers_minor=0,
                    pfc_flags = samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_FIRST |
@@ -586,8 +586,8 @@ class RawDCERPCTest(TestCase):
         self.assertEqual(p.call_id, call_id)
 
         return
-
-    def generate_bind(self, call_id,
+    if not six.PY3:
+     def generate_bind(self, call_id,
                       pfc_flags = samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_FIRST |
                                   samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_LAST,
                       max_xmit_frag=5840,
@@ -612,8 +612,8 @@ class RawDCERPCTest(TestCase):
                               ndr_print=ndr_print, hexdump=hexdump)
 
         return p
-
-    def generate_alter(self, call_id,
+    if not six.PY3:
+     def generate_alter(self, call_id,
                        pfc_flags = samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_FIRST |
                                    samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_LAST,
                        max_xmit_frag=5840,
@@ -638,8 +638,8 @@ class RawDCERPCTest(TestCase):
                               ndr_print=ndr_print, hexdump=hexdump)
 
         return p
-
-    def generate_auth3(self, call_id,
+    if not six.PY3:
+     def generate_auth3(self, call_id,
                        pfc_flags = samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_FIRST |
                                    samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_LAST,
                        auth_info="",
@@ -655,8 +655,8 @@ class RawDCERPCTest(TestCase):
                               ndr_print=ndr_print, hexdump=hexdump)
 
         return p
-
-    def generate_request(self, call_id,
+    if not six.PY3:
+     def generate_request(self, call_id,
                          pfc_flags = samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_FIRST |
                                      samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_LAST,
                          alloc_hint=None,
@@ -688,8 +688,8 @@ class RawDCERPCTest(TestCase):
             p.auth_length = len(auth_info) - samba.dcerpc.dcerpc.DCERPC_AUTH_TRAILER_LENGTH
 
         return p
-
-    def generate_co_cancel(self, call_id,
+    if not six.PY3:
+     def generate_co_cancel(self, call_id,
                            pfc_flags = samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_FIRST |
                                        samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_LAST,
                            auth_info="",
@@ -705,8 +705,8 @@ class RawDCERPCTest(TestCase):
                               ndr_print=ndr_print, hexdump=hexdump)
 
         return p
-
-    def generate_orphaned(self, call_id,
+    if not six.PY3:
+     def generate_orphaned(self, call_id,
                           pfc_flags = samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_FIRST |
                                       samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_LAST,
                           auth_info="",
@@ -722,8 +722,8 @@ class RawDCERPCTest(TestCase):
                               ndr_print=ndr_print, hexdump=hexdump)
 
         return p
-
-    def generate_shutdown(self, call_id,
+    if not six.PY3:
+     def generate_shutdown(self, call_id,
                           pfc_flags = samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_FIRST |
                                       samba.dcerpc.dcerpc.DCERPC_PFC_FLAG_LAST,
                           ndr_print=None, hexdump=None):
