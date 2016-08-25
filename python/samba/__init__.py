@@ -25,7 +25,10 @@ __docformat__ = "restructuredText"
 import os
 import sys
 import time
-import samba.param
+import six
+if not six.PY3:
+    # Py2 only - to make tests pass
+    import samba.param
 
 
 def source_tree_topdir():
