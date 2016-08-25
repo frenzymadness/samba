@@ -26,9 +26,14 @@ import os
 import sys
 import time
 import six
+import ldb
 if not six.PY3:
     # Py2 only - to make tests pass
     import samba.param
+    from samba import _glue
+    from samba._ldb import Ldb as _Ldb
+else:
+    _Ldb = object
 
 
 def source_tree_topdir():
@@ -48,10 +53,6 @@ def in_source_tree():
     except RuntimeError:
         return False
     return True
-
-
-import ldb
-from samba._ldb import Ldb as _Ldb
 
 
 class Ldb(_Ldb):
