@@ -394,17 +394,16 @@ def arcfour_encrypt(key, data):
         pass
     raise Exception("arcfour_encrypt() requires " +
                     "python*-crypto or python*-m2crypto or m2crypto")
-
-from samba import _glue
-version = _glue.version
-interface_ips = _glue.interface_ips
-set_debug_level = _glue.set_debug_level
-get_debug_level = _glue.get_debug_level
-unix2nttime = _glue.unix2nttime
-nttime2string = _glue.nttime2string
-nttime2unix = _glue.nttime2unix
-unix2nttime = _glue.unix2nttime
-generate_random_password = _glue.generate_random_password
-strcasecmp_m = _glue.strcasecmp_m
-strstr_m = _glue.strstr_m
-is_ntvfs_fileserver_built = _glue.is_ntvfs_fileserver_built
+if not six.PY3:
+    version = _glue.version
+    interface_ips = _glue.interface_ips
+    set_debug_level = _glue.set_debug_level
+    get_debug_level = _glue.get_debug_level
+    unix2nttime = _glue.unix2nttime
+    nttime2string = _glue.nttime2string
+    nttime2unix = _glue.nttime2unix
+    unix2nttime = _glue.unix2nttime
+    generate_random_password = _glue.generate_random_password
+    strcasecmp_m = _glue.strcasecmp_m
+    strstr_m = _glue.strstr_m
+    is_ntvfs_fileserver_built = _glue.is_ntvfs_fileserver_built
