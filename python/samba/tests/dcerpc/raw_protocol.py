@@ -30,7 +30,7 @@ import samba.dcerpc.netlogon
 import struct
 from samba.credentials import Credentials
 from samba import gensec
-from samba.tests import RawDCERPCTest
+from samba.tests.dcerpc.raw_testcase import RawDCERPCTest
 
 global_ndr_print = False
 global_hexdump = False
