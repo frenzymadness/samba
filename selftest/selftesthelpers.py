@@ -46,7 +46,7 @@ else:
     has_perl_test_more = False
 
 python = os.getenv("PYTHON", "python")
-python3 = os.getenv("PYTHON3", "python3")
+extra_python = os.getenv("EXTRA_PYTHON", "python3")
 
 tap2subunit = python + " " + os.path.join(srcdir(), "selftest", "tap2subunit")
 
@@ -135,7 +135,7 @@ def planpythontestsuite(env, module, name=None, extra_path=[], py3_compatible=Fa
     plantestsuite_loadlist(name, env, args)
     if py3_compatible:
         # Plan one more test for Python 3 compatible module
-        args[0] = python3
+        args[0] = extra_python
         plantestsuite_loadlist(name, env, args)
 
 
