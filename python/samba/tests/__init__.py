@@ -27,10 +27,10 @@ import tempfile
 import unittest
 from samba import credentials
 from samba.compat import PY3
+from samba import param
 if not PY3:
     # Py2 only
     import samba.auth
-    from samba import param
     from samba.samdb import SamDB
     import samba.ndr
     import samba.dcerpc.dcerpc
