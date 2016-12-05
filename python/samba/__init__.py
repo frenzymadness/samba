@@ -28,9 +28,9 @@ import time
 import ldb
 from samba.compat import PY3
 import samba.param
+from samba import _glue
 if not PY3:
     # Py2 only - to make tests pass
-    from samba import _glue
     from samba._ldb import Ldb as _Ldb
 else:
     _Ldb = object
@@ -396,21 +396,20 @@ def arcfour_encrypt(key, data):
                     "python*-crypto or python*-m2crypto or m2crypto")
 
 
-if not PY3:
-    version = _glue.version
-    interface_ips = _glue.interface_ips
-    set_debug_level = _glue.set_debug_level
-    get_debug_level = _glue.get_debug_level
-    unix2nttime = _glue.unix2nttime
-    nttime2string = _glue.nttime2string
-    nttime2unix = _glue.nttime2unix
-    unix2nttime = _glue.unix2nttime
-    generate_random_password = _glue.generate_random_password
-    strcasecmp_m = _glue.strcasecmp_m
-    strstr_m = _glue.strstr_m
-    is_ntvfs_fileserver_built = _glue.is_ntvfs_fileserver_built
+version = _glue.version
+interface_ips = _glue.interface_ips
+set_debug_level = _glue.set_debug_level
+get_debug_level = _glue.get_debug_level
+unix2nttime = _glue.unix2nttime
+nttime2string = _glue.nttime2string
+nttime2unix = _glue.nttime2unix
+unix2nttime = _glue.unix2nttime
+generate_random_password = _glue.generate_random_password
+strcasecmp_m = _glue.strcasecmp_m
+strstr_m = _glue.strstr_m
+is_ntvfs_fileserver_built = _glue.is_ntvfs_fileserver_built
 
-    NTSTATUSError = _glue.NTSTATUSError
-    HRESULTError = _glue.HRESULTError
-    WERRORError = _glue.WERRORError
-    DsExtendedError = _glue.DsExtendedError
+NTSTATUSError = _glue.NTSTATUSError
+HRESULTError = _glue.HRESULTError
+WERRORError = _glue.WERRORError
+DsExtendedError = _glue.DsExtendedError
