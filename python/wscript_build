@@ -25,6 +25,7 @@ for env in bld.gen_python_environments():
 		realname='samba/_glue.so'
 		)
 
+for env in bld.gen_python_environments():
 	# install out various python scripts for use by make test
 	bld.SAMBA_SCRIPT('samba_python_files',
 	                 pattern='samba/**/*.py',
