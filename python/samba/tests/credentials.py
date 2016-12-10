@@ -121,6 +121,8 @@ class CredentialsTests(samba.tests.TestCaseInTempDir):
         self.creds.set_password(hex_nthash)
         self.assertEqual(None, self.creds.get_password())
         self.assertEqual(binascii.a2b_hex(hex_nthash),
+        self.creds.set_password("geheim")
+        self.assertEqual(b'\xc2\xae\x1f\xe6\xe6H\x84cRE>\x81o*\xeb\x93',
                          self.creds.get_nt_hash())
 
     def test_set_cmdline_callbacks(self):
@@ -314,7 +316,7 @@ class CredentialsTests(samba.tests.TestCaseInTempDir):
         lp = samba.tests.env_loadparm()
         os.environ["USER"] = "env_user"
         creds.guess(lp)
-        creds.parse_string("domain\user")
+        creds.parse_string("domain\\user")
         self.assertEqual(creds.get_username(), "user")
         self.assertEqual(creds.get_domain(), "DOMAIN")
         self.assertEqual(creds.get_realm(), None)
@@ -402,7 +404,7 @@ class CredentialsTests(samba.tests.TestCaseInTempDir):
         lp = samba.tests.env_loadparm()
         os.environ["USER"] = "env_user"
         creds.guess(lp)
-        creds.parse_string("domain\user%pass")
+        creds.parse_string("domain\\user%pass")
         self.assertEqual(creds.get_username(), "user")
         self.assertEqual(creds.get_domain(), "DOMAIN")
         self.assertEqual(creds.get_password(), "pass")
