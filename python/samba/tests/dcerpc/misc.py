@@ -36,12 +36,12 @@ class GUIDTests(samba.tests.TestCase):
     def test_compare_different(self):
         guid1 = misc.GUID(text1)
         guid2 = misc.GUID(text2)
-        self.assertTrue(cmp(guid1, guid2) > 0)
+        self.assertFalse(guid1 == guid2)
 
     def test_compare_same(self):
         guid1 = misc.GUID(text1)
         guid2 = misc.GUID(text1)
-        self.assertEquals(0, cmp(guid1, guid2))
+        self.assertTrue(guid1 == guid2)
         self.assertEquals(guid1, guid2)
 
 
