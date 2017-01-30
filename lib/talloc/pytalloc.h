@@ -60,6 +60,9 @@ PyObject *pytalloc_reference_ex(PyTypeObject *py_type, TALLOC_CTX *mem_ctx, void
 #if PY_MAJOR_VERSION < 3
 PyObject *pytalloc_CObject_FromTallocPtr(void *);
 #endif
+#if PY_VERSION_HEX >= 0x02070000
+PyObject *pytalloc_PyCapsule_FromTallocPtr(void *);
+#endif
 
 size_t pytalloc_BaseObject_size(void);
 
