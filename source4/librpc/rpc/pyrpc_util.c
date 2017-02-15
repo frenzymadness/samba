@@ -21,6 +21,7 @@
 */
 
 #include <Python.h>
+#include "python/py3compat.h"
 #include "includes.h"
 #include "librpc/rpc/pyrpc_util.h"
 #include "librpc/rpc/dcerpc.h"
@@ -388,7 +389,7 @@ PyObject *PyString_FromStringOrNULL(const char *str)
 	if (str == NULL) {
 		Py_RETURN_NONE;
 	}
-	return PyString_FromString(str);
+	return PyStr_FromString(str);
 }
 
 PyObject *pyrpc_import_union(PyTypeObject *type, TALLOC_CTX *mem_ctx, int level,
@@ -399,20 +400,20 @@ PyObject *pyrpc_import_union(PyTypeObject *type, TALLOC_CTX *mem_ctx, int level,
 	PyObject *in_obj = NULL;
 	PyObject *ret = NULL;
 
-	mem_ctx_obj = PyCObject_FromVoidPtrAndDesc(mem_ctx,
-					discard_const_p(char, mem_ctx_type),
-					NULL);
+	mem_ctx_obj = PyCapsule_New(mem_ctx, NULL, NULL);
 	if (mem_ctx_obj == NULL) {
 		return NULL;
 	}
+	PyCapsule_SetContext(mem_ctx_obj,
+			     discard_const_p(char, mem_ctx_type));
 
-	in_obj = PyCObject_FromVoidPtrAndDesc(discard_const(in),
-					discard_const_p(char, typename),
-					NULL);
+	in_obj = PyCapsule_New(discard_const(in), NULL, NULL);
 	if (in_obj == NULL) {
 		Py_XDECREF(mem_ctx_obj);
 		return NULL;
 	}
+	PyCapsule_SetContext(in_obj,
+			     discard_const_p(char, typename));
 
 	ret = PyObject_CallMethod((PyObject *)type,
 				  discard_const_p(char, "__import__"),
@@ -437,12 +438,12 @@ void *pyrpc_export_union(PyTypeObject *type, TALLOC_CTX *mem_ctx, int level,
 	void *ret = NULL;
 	int cmp;
 
-	mem_ctx_obj = PyCObject_FromVoidPtrAndDesc(mem_ctx,
-					discard_const_p(char, mem_ctx_type),
-					NULL);
+	mem_ctx_obj = PyCapsule_New(mem_ctx, NULL, NULL);
 	if (mem_ctx_obj == NULL) {
 		return NULL;
 	}
+	PyCapsule_SetContext(mem_ctx_obj,
+			     discard_const_p(char, mem_ctx_type));
 
 	ret_obj = PyObject_CallMethod((PyObject *)type,
 				      discard_const_p(char, "__export__"),
@@ -453,19 +454,19 @@ void *pyrpc_export_union(PyTypeObject *type, TALLOC_CTX *mem_ctx, int level,
 		return NULL;
 	}
 
-	if (!PyCObject_Check(ret_obj)) {
+	if (!PyCapsule_CheckExact(ret_obj)) {
 		Py_XDECREF(ret_obj);
 		PyErr_Format(PyExc_TypeError,
-			     "New %s.__export__() returned no PyCObject!",
+			     "New %s.__export__() returned no PyCapsule!",
 			     type->tp_name);
 		return NULL;
 	}
 
-	ret_desc = (const char *)PyCObject_GetDesc(ret_obj);
+	ret_desc = (const char *)PyCapsule_GetContext(ret_obj);
 	if (ret_desc == NULL) {
 		Py_XDECREF(ret_obj);
 		PyErr_Format(PyExc_TypeError,
-			     "New %s.__export__() returned no PyCObject_GetDesc()!",
+			     "New %s.__export__() returned no PyCapsule_GetDesc()!",
 			     type->tp_name);
 		return NULL;
 	}
@@ -474,12 +475,12 @@ void *pyrpc_export_union(PyTypeObject *type, TALLOC_CTX *mem_ctx, int level,
 	if (cmp != 0) {
 		Py_XDECREF(ret_obj);
 		PyErr_Format(PyExc_TypeError,
-			     "New %s.__export__() returned PyCObject_GetDesc() != %s!",
+			     "New %s.__export__() returned PyCapsule_GetDesc() != %s!",
 			     type->tp_name, typename);
 		return NULL;
 	}
 
-	ret = PyCObject_AsVoidPtr(ret_obj);
+	ret = PyCapsule_GetPointer(ret_obj, NULL);
 	Py_XDECREF(ret_obj);
 	return ret;
 }
