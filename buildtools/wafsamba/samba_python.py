@@ -39,7 +39,11 @@ def SAMBA_CHECK_PYTHON(conf, mandatory=True, version=(2,4,2)):
 
 
 @conf
-def SAMBA_CHECK_PYTHON_HEADERS(conf, mandatory=True):
+def SAMBA_CHECK_PYTHON_HEADERS(conf, mandatory=True, version=None):
+    # Allow an assertion of a version of higher python for building C bindings
+    if version is not None:
+        conf.check_python_version(version)
+
     if conf.env["python_headers_checked"] == []:
         if conf.env['EXTRA_PYTHON']:
             conf.setenv('extrapython')
