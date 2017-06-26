@@ -138,6 +138,7 @@ plantestsuite(
      configuration])
 planpythontestsuite("none", "samba.tests.glue", py3_compatible=True)
 planpythontestsuite("none", "samba.tests.tdb_util", py3_compatible=True)
+planpythontestsuite("none", "samba.tests.netbios", py3_compatible=True)
 
 if with_pam:
     plantestsuite("samba.tests.pam_winbind(local)", "ad_member",
