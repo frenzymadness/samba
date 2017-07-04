@@ -1,5 +1,5 @@
 # Unix SMB/CIFS implementation.
-# Copyright (C) Lumír Balhar <lbalhar@redhat.com> 2017
+# Copyright (C) Lumir Balhar <lbalhar@redhat.com> 2017
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
