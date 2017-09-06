@@ -47,6 +47,12 @@ for env in bld.gen_python_environments():
     	realname='samba/xattr_native.so'
     	)
 
+    bld.SAMBA_PYTHON('python_xattr_tdb',
+    	source='python/pyxattr_tdb.c',
+    	deps='pyparam_util xattr_tdb',
+    	realname='samba/xattr_tdb.so'
+    	)
+
 bld.SAMBA_LIBRARY('posix_eadb',
                   source='posix_eadb.c',
                   deps='tdb tdb-wrap samba-util',
@@ -58,10 +64,3 @@ bld.SAMBA_PYTHON('python_posix_eadb',
 	deps='pyparam_util posix_eadb tdb',
 	realname='samba/posix_eadb.so'
 	)
-
-bld.SAMBA_PYTHON('python_xattr_tdb',
-	source='python/pyxattr_tdb.c',
-	deps='pyparam_util xattr_tdb',
-	realname='samba/xattr_tdb.so'
-	)
-
