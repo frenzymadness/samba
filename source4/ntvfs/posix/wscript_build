@@ -40,12 +40,12 @@ if bld.CONFIG_SET('WITH_NTVFS_FILESERVER'):
 	             internal_module=True
     )
 
-
-bld.SAMBA_PYTHON('python_xattr_native',
-	source='python/pyxattr_native.c',
-	deps='ndr ldb samdb samba-credentials pyparam_util attr',
-	realname='samba/xattr_native.so'
-	)
+for env in bld.gen_python_environments():
+    bld.SAMBA_PYTHON('python_xattr_native',
+    	source='python/pyxattr_native.c',
+    	deps='ndr ldb samdb samba-credentials pyparam_util attr',
+    	realname='samba/xattr_native.so'
+    	)
 
 bld.SAMBA_LIBRARY('posix_eadb',
                   source='posix_eadb.c',
