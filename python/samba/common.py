@@ -18,7 +18,7 @@
 
 
 import ldb
-import dsdb
+from samba import dsdb
 import binascii
 
 

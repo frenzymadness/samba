@@ -31,6 +31,7 @@ from samba import dsdb, dsdb_dns
 from samba.ndr import ndr_unpack, ndr_pack
 from samba.dcerpc import drsblobs, misc
 from samba.common import normalise_int32
+from samba.compat import PY3
 
 __docformat__ = "restructuredText"
 
@@ -506,7 +507,11 @@ member: %s
             if len(res) > 1:
                 raise Exception('Matched %u multiple users with filter "%s"' % (len(res), search_filter))
             user_dn = res[0].dn
-            pw = unicode('"' + password.encode('utf-8') + '"', 'utf-8').encode('utf-16-le')
+            print(password, PY3)
+            if PY3:
+                pw = str('"' + password + '"').encode('utf-16-le')
+            else:
+                pw = unicode('"' + password.encode('utf-8') + '"', 'utf-8').encode('utf-16-le')
             setpw = """
 dn: %s
 changetype: modify
@@ -687,7 +692,7 @@ accountExpires: %u
         """
         if len(self.hash_oid_name.keys()) == 0:
             self._populate_oid_attid()
-        if self.hash_oid_name.has_key(self.get_oid_from_attid(attid)):
+        if self.get_oid_from_attid(attid) in self.hash_oid_name:
             return self.hash_oid_name[self.get_oid_from_attid(attid)]
         else:
             return None
@@ -726,14 +731,14 @@ accountExpires: %u
             return None
 
         repl = ndr_unpack(drsblobs.replPropertyMetaDataBlob,
-                            str(res[0]["replPropertyMetaData"]))
+                          res[0]["replPropertyMetaData"][0])
         ctr = repl.ctr
         if len(self.hash_oid_name.keys()) == 0:
             self._populate_oid_attid()
         for o in ctr.array:
             # Search for Description
             att_oid = self.get_oid_from_attid(o.attid)
-            if self.hash_oid_name.has_key(att_oid) and\
+            if att_oid in self.hash_oid_name and\
                att.lower() == self.hash_oid_name[att_oid].lower():
                 return o.version
         return None
@@ -748,7 +753,7 @@ accountExpires: %u
             return None
 
         repl = ndr_unpack(drsblobs.replPropertyMetaDataBlob,
-                            str(res[0]["replPropertyMetaData"]))
+                          res[0]["replPropertyMetaData"][0])
         ctr = repl.ctr
         now = samba.unix2nttime(int(time.time()))
         found = False
@@ -757,7 +762,7 @@ accountExpires: %u
         for o in ctr.array:
             # Search for Description
             att_oid = self.get_oid_from_attid(o.attid)
-            if self.hash_oid_name.has_key(att_oid) and\
+            if att_oid in self.hash_oid_name and\
                att.lower() == self.hash_oid_name[att_oid].lower():
                 found = True
                 seq = self.sequence_number(ldb.SEQ_NEXT)
