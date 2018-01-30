@@ -512,7 +512,7 @@ dn: %s
 changetype: modify
 replace: unicodePwd
 unicodePwd:: %s
-""" % (user_dn, base64.b64encode(pw))
+""" % (user_dn, base64.b64encode(pw).decode('utf-8'))
 
             self.modify_ldif(setpw)
 
